@@ -3,8 +3,8 @@ import twitter4j.conf.ConfigurationBuilder;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import java.io.Serializable;
 import java.util.logging.Logger;
@@ -24,22 +24,20 @@ public class TweetManager implements LifecycleManager, Serializable {
     
     private KafkaProducer<String, String> Producer;
 
-    StatusListener listener = new StatusListener(){
+    StatusListener listener = new StatusListener() {
         public void onStatus(Status status) {
-            Tweet newTweet = new Tweet(status.getUser().getName(),status.getText(),status.getCreatedAt());
-            logger.log(Level.INFO,newTweet.getUsername() + " : " + newTweet.getTweetContent() + ":" + newTweet.getTweetdate());
+            Tweet newTweet = new Tweet(status.getUser().getName(), status.getText(), status.getCreatedAt());
+            logger.log(Level.INFO, newTweet.getUsername() + " : " + newTweet.getTweetContent() + ":" + newTweet.getTweetdate());
             ProducerRecord<String, String> Record = new ProducerRecord<String, String>
-                   ("twitter-topic", "@" + newTweet.getUsername() + ":" + " " + newTweet.getTweetContent());
+                    ("twitter-topic", "@" + newTweet.getUsername() + ":" + " " + newTweet.getTweetContent());
             Producer.send(Record, new Callback() {
-                   public void onCompletion(RecordMetadata recordMetadata, Exception e) {
-                        if (e == null) {
-                            System.out.println("Succesfully sent to Kafka");
-                        } else
-                            System.out.println("Error sending to Kafka: " + e);
-                    }
-                });
-            }
-
+                public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+                    if (e == null) {
+                        System.out.println("Succesfully sent to Kafka");
+                    } else
+                        System.out.println("Error sending to Kafka: " + e);
+                }
+            });
         }
         public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {}
         public void onTrackLimitationNotice(int numberOfLimitedStatuses) {}
