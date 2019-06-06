@@ -6,7 +6,7 @@ import javax.ws.rs.core.Response;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Path("tweets/collector")
+@Path("tweets/consumer")
 public class TweetCollectorResource {
     @Inject
     LifecycleManager manager;
@@ -22,7 +22,7 @@ public class TweetCollectorResource {
         Response r = null;
         try {
             manager.start();
-            r = Response.ok("Coletor de Twitter iniciado")
+            r = Response.ok("Consumidor de Twitter iniciado")
                     .build();
         } catch (Exception ex) {
             logger.log(Level.SEVERE, null, ex);
@@ -40,7 +40,7 @@ public class TweetCollectorResource {
         Response r = null;
         try {
             manager.stop();
-            r = Response.ok("Coletor de Twitter finalizado")
+            r = Response.ok("Consumidor de Twitter finalizado")
                     .build();
         } catch (Exception ex) {
             logger.log(Level.SEVERE, null, ex);
