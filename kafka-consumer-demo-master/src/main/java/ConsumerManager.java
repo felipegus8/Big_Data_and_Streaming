@@ -23,35 +23,36 @@ public class ConsumerManager implements LifecycleManager,Serializable {
         properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, TweetDeserializer.class.getName());
-        //properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "consumer_demo");
+        properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "consumer_demo");
         properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        isConsuming = true;
 
         // Criar o consumidor
-        KafkaConsumer<String ,String> consumer = new KafkaConsumer<String, Tweet>(properties);
+        KafkaConsumer<String ,Tweet> consumer = new KafkaConsumer<String, Tweet>(properties);
 
         // Subscrever o consumidor para o nosso(s) tópico(s)
         consumer.subscribe(Collections.singleton("twitter-topic"));
 
-        isConsuming = true;
-
+        // Ler as mensagens
         ConsumerThread = new Thread(new Runnable() {
-          @Override
-          public void run() {
-            while (isConsuming) {
-              ConsumerRecords<String, Tweet> poll = consumer.poll(Duration.ofMillis(1000));
-              for (ConsumerRecord record : poll) {
-                  System.out.println("Entrou aqui");
-                  logger.info(record.topic() + " - " + record.partition() + " - " + record.value());
-              }
+            @Override
+            public void run() {
+                while (isConsuming) {
+                    ConsumerRecords<String, Tweet> poll = consumer.poll(Duration.ofMillis(10000));
+                    for (ConsumerRecord record : poll) {
+                        System.out.println("Entrou aqui");
+                        logger.info(record.topic() + " - " + record.partition() + " - " + record.value());
+                    }
 
+                }
             }
-          }
-        )};
+        });
         ConsumerThread.start();
     }
 
+
     public void stop() {
-      this.isConsuming = false
+        this.isConsuming = false;
 
     }
 }

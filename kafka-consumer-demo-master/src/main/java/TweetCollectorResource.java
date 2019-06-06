@@ -22,7 +22,7 @@ public class TweetCollectorResource {
         Response r = null;
         try {
             manager.start();
-            r = Response.ok("Consumidor de Twitter iniciado")
+            r = Response.ok("Coletor de Twitter iniciado")
                     .build();
         } catch (Exception ex) {
             logger.log(Level.SEVERE, null, ex);
@@ -40,7 +40,7 @@ public class TweetCollectorResource {
         Response r = null;
         try {
             manager.stop();
-            r = Response.ok("Consumidor de Twitter finalizado")
+            r = Response.ok("Coletor de Twitter finalizado")
                     .build();
         } catch (Exception ex) {
             logger.log(Level.SEVERE, null, ex);

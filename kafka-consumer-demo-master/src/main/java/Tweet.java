@@ -5,6 +5,9 @@ public class Tweet {
     private String tweetContent;
     private Date tweetdate;
 
+    public Tweet() {}
+
+
     public Tweet(String username,String tweetContent,Date tweetdate) {
         this.username = username;
         this.tweetContent = tweetContent;
@@ -24,30 +27,21 @@ public class Tweet {
     }
 
     public void setUsername(String username) {
-      this.Username = username;
+        this.username = username;
     }
 
-    public void setTweetText(String tweetText) {
-      this.TweetText = tweetText;
+    public void setTweetContent(String tweetContent) {
+        this.tweetContent = tweetContent;
     }
 
-    public void setDateSent(String dateSent) { this.DateSent = dateSent; }
-         return TweetText;
-    }
-    public String getUsername() {
-      return Username;
+
+    public void setTweetdate(Date tweetdate) {
+        this.tweetdate = tweetdate;
     }
 
-    public String getDateSent() {
-      return DateSent;
-    }
-
-    public String getTweetText() {
-      return TweetText;
-    }
 
     public String toString() {
-      return "@" + this.Username +": " + this.TweetText;
+        return "@" + this.username +": " + this.tweetContent;
     }
 
 }

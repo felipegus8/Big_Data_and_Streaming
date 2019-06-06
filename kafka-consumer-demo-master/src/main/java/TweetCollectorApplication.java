@@ -38,7 +38,6 @@ public class TweetCollectorApplication {
             }
         }));
         server.start();
-        new TweetCollectorResource().start();
 
     }
     public static void main(String[] args) throws Exception {

@@ -22,14 +22,13 @@ public class TweetManager implements LifecycleManager, Serializable {
     TwitterStream twitterStream;
     private static final Logger logger = Logger.getLogger(TweetCollectorResource.class.getName());
     
-    private KafkaProducer<String, String> Producer;
+    private KafkaProducer<String, Tweet> Producer;
 
     StatusListener listener = new StatusListener() {
         public void onStatus(Status status) {
             Tweet newTweet = new Tweet(status.getUser().getName(), status.getText(), status.getCreatedAt());
             logger.log(Level.INFO, newTweet.getUsername() + " : " + newTweet.getTweetContent() + ":" + newTweet.getTweetdate());
-            ProducerRecord<String, String> Record = new ProducerRecord<String, String>
-                    ("twitter-topic", "@" + newTweet.getUsername() + ":" + " " + newTweet.getTweetContent());
+            ProducerRecord<String, Tweet> Record = new ProducerRecord<String, Tweet>("twitter-topic", newTweet);
             Producer.send(Record, new Callback() {
                 public void onCompletion(RecordMetadata recordMetadata, Exception e) {
                     if (e == null) {
@@ -75,9 +74,9 @@ public class TweetManager implements LifecycleManager, Serializable {
         Properties properties = new Properties();
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-
-        Producer = new KafkaProducer<String, String>(properties);
+        properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, TweetSerializer.class.getName());
+        Producer = new KafkaProducer<String, Tweet>(properties);
+        Producer = new KafkaProducer<String, Tweet>(properties);
     }
 
 }
