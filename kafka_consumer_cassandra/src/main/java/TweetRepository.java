@@ -17,7 +17,7 @@ public class TweetRepository {
         System.out.println("createTable --init");
         StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ")
                 .append(TABLE_NAME).append("(")
-                .append("id uuid PRIMARY KEY, ")
+                .append("id long PRIMARY KEY, ")
                 .append("username text,")
                 .append("text text,")
                 .append("created_at date,")
@@ -40,7 +40,7 @@ public class TweetRepository {
         System.out.println("createTableTweetsByCountry --init");
         StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ")
                 .append(TABLE_NAME_BY_COUNTRY).append("(")
-                .append("id uuid, ")
+                .append("id long, ")
                 .append("username text,")
                 .append("text text,")
                 .append("created_at date,")
@@ -118,8 +118,8 @@ public class TweetRepository {
         for (Row r:rs) {
             System.out.println(r);
             GeoLocation geo = new GeoLocation(r.getFloat("geo_location_latitude"),r.getFloat("geo_location_longitude"));
-            Tweet s = new Tweet(r.getUUID("id"),r.getString("username"),r.getString("text"),
-                    r.getDate("created_at"),r.getString("source"),r.getBool("isTruncated"),r.getBool("isFavourite"),
+            Tweet s = new Tweet(r.getLong("id"),r.getString("username"),r.getString("text"),
+                    r.getTimestamp("created_at"),r.getString("source"),r.getBool("isTruncated"),r.getBool("isFavourite"),
                     geo,r.getString("lang"),null,r.getString("country"));
             tweets.add(s);
         }
@@ -137,8 +137,8 @@ public class TweetRepository {
         for (Row r:rs) {
             System.out.println(r);
             GeoLocation geo = new GeoLocation(r.getFloat("geo_location_latitude"),r.getFloat("geo_location_longitude"));
-            Tweet s = new Tweet(r.getUUID("id"),r.getString("username"),r.getString("text"),
-                    r.getDate("created_at"),r.getString("source"),r.getBool("isTruncated"),r.getBool("isFavourite"),
+            Tweet s = new Tweet(r.getLong("id"),r.getString("username"),r.getString("text"),
+                    r.getTimestamp("created_at"),r.getString("source"),r.getBool("isTruncated"),r.getBool("isFavourite"),
                     geo,r.getString("lang"),null,r.getString("country"));
             tweets.add(s);
         }
@@ -156,8 +156,8 @@ public class TweetRepository {
         for (Row r:rs) {
             System.out.println(r);
             GeoLocation geo = new GeoLocation(r.getFloat("geo_location_latitude"),r.getFloat("geo_location_longitude"));
-            Tweet s = new Tweet(r.getUUID("id"),r.getString("username"),r.getString("text"),
-                    r.getDate("created_at"),r.getString("source"),r.getBool("isTruncated"),r.getBool("isFavourite"),
+            Tweet s = new Tweet(r.getLong("id"),r.getString("username"),r.getString("text"),
+                    r.getTimestamp("created_at"),r.getString("source"),r.getBool("isTruncated"),r.getBool("isFavourite"),
                     geo,r.getString("lang"),null,r.getString("country"));
             tweets.add(s);
         }
